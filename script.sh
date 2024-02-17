@@ -46,7 +46,7 @@ USAGE_TEXT
 # Function to extract IP addresses from input file and prepare them for processing
 prepare_file() {
   grep -Po '\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b' "$input_arg" >> allIPs.txt
-  sort -u allIPs.txt | uniq -u >> allIPsUniq.txt
+  sort -u allIPs.txt | uniq -u >> "$1"
 }
 
 # Function to remove empty lines from a file
@@ -170,19 +170,20 @@ touch "$uniq_output_file"
 # Execute appropriate actions based on options provided
 if ((all_option_flag)); then
     echo "Using -a option --all -> arg:"
-    prepare_file "${input_arg}"
+    prepare_file "${uniq_output_file}"
     local_clean "${uniq_output_file}"
     remote_clean "${uniq_output_file}"
 fi
 if ((local_option_flag)); then
     echo "Using -l option --local -> arg:"
-    prepare_file "${input_arg}"
+    prepare_file "${uniq_output_file}"
     local_clean "${uniq_output_file}"
 fi
 if ((remote_option_flag)); then
     echo "Using -r option --remote -> arg:"
-    prepare_file "${input_arg}"
+    prepare_file "${uniq_output_file}"
     remote_clean "${uniq_output_file}"
 fi
 clean_up
 exit 0
+
