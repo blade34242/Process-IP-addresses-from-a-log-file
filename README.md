@@ -1,22 +1,32 @@
 # Process IP Addresses from a Log File
 
-This repository contains a script for extracting, processing, and analyzing IP addresses from log files. The script reads through a log file, filters out the IP addresses, and performs various operations on them, such as counting occurrences and identifying unique addresses.
+This repository contains a Bash script that extracts, processes, and analyzes IP addresses from log files. The script reads a log file, filters IP addresses based on configurable patterns, and outputs a report listing the unique IP addresses along with their occurrence counts.
 
 ## Features
 
-- **Extract IP Addresses**: Efficiently extract IP addresses from a specified log file.
-- **Count Occurrences**: Count the number of times each IP address appears in the log file.
-- **Identify Unique IPs**: List all unique IP addresses found in the log file.
-- **Configuration File**: Easily configurable through the `script.conf` file for custom log file paths and other settings.
+- **Extract IP Addresses:** Efficiently extracts all IP addresses from a specified log file.
+- **Count Occurrences:** Counts how many times each IP address appears in the log file.
+- **Filter Options:** Optionally filter out local and/or remote IP addresses based on patterns defined in the configuration file.
+- **Configurable Settings:** Easily adjust IP patterns and other settings through the `script.conf` file.
+- **Automatic Cleanup:** Removes temporary files after processing is complete.
 
 ## Requirements
 
-- Bash (Unix Shell)
+- Unix-like operating system (Linux, macOS)
+- Bash (version 4.0 or higher)
 - Basic understanding of shell scripting
 
-## Usage
+## Files
+
+- **script.sh:** The main script to process the log file.
+- **script.conf:** Configuration file where you define IP patterns and other settings.
+- **README.md:** This documentation file.
+
+## Installation
 
 1. **Clone the Repository**
+
+   Open a terminal and run:
 
    ```bash
    git clone https://github.com/blade34242/Process-IP-addresses-from-a-log-file.git
@@ -25,32 +35,45 @@ This repository contains a script for extracting, processing, and analyzing IP a
 
 2. **Configure the Script**
 
-   Edit the `script.conf` file to specify the path to your log file and any other configurations.
+   Edit the file `script.conf` to adjust the IP filter patterns and any other settings required for your environment.
 
-3. **Run the Script**
+   Example `script.conf`:
 
    ```bash
-   ./script.sh
+   # Configuration file for processing IP addresses
+
+   # Pattern for local IP addresses (adjust as needed)
+   LOCAL_IP_PATTERN="^172\.[0-9]{1,3}(\.[0-9]{1,3}){2}"
+
+   # Pattern for remote IP addresses (adjust as needed)
+   REMOTE_IP_PATTERN="^192\.[0-9]{1,3}(\.[0-9]{1,3}){2}"
    ```
 
-## Configuration
+2. **Set Permissions**
 
-The `script.conf` file allows you to configure:
+   Make the script executable:
 
-- `LOG_FILE_PATH`: Path to the log file to be processed.
-- Any other custom settings needed for your specific use case.
+   ```bash
+   chmod +x script.sh
+   ```
 
-## Example
+## Usage
 
-Assume you have a log file `example.log` with the following content:
+Run the script by specifying the input log file with the `-i` or `--input` option, along with one of the following processing options:
 
+- `-a` or `--all`: Process all IP addresses (filter out both local and remote as defined).
+- `-l` or `--local`: Process IP addresses and filter out local IPs only.
+- `-r` or `--remote`: Process IP addresses and filter out remote IP addresses only.
+
+### Example
+
+Assuming you have a log file named `log.txt`, you can run:
+
+```bash
+./script.sh -i log.txt -a
 ```
-192.168.1.1 - - [24/Jun/2024:10:10:10] "GET /index.html HTTP/1.1" 200 1024
-192.168.1.2 - - [24/Jun/2024:10:10:11] "POST /form HTTP/1.1" 200 512
-192.168.1.1 - - [24/Jun/2024:10:10:12] "GET /about.html HTTP/1.1" 200 2048
-```
 
-Running the script will output:
+The script will output a report similar to:
 
 ```
 IP Addresses found:
@@ -64,12 +87,12 @@ IP Address Count:
 
 ## Contributing
 
-Contributions are welcome! Please submit a pull request or open an issue for any improvements or bugs.
+Contributions and suggestions are welcome! If you find any issues or would like to improve the script, please open an issue or submit a pull request.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
 ## Contact
 
-For any questions or suggestions, feel free to open an issue or contact the repository owner.
+For any questions or suggestions, please open an issue or contact the repository owner.
